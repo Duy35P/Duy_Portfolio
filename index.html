@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfolio của Phan Trần Hữu Duy — AI Full-Stack Developer Intern. Chuyên về Computer Vision, NLP và Web Development.">
+  <title>Phan Trần Hữu Duy — AI Full-Stack Developer</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+</head>
+<body>
+
+  <!-- ===== NAVIGATION ===== -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="#" class="nav-logo">Duy.dev</a>
+      <div class="nav-links" id="navLinks">
+        <a href="#about">Giới thiệu</a>
+        <a href="#skills">Kỹ năng</a>
+        <a href="#projects">Dự án</a>
+        <a href="#education">Học vấn</a>
+        <a href="#experience">Kinh nghiệm</a>
+        <a href="#contact">Liên hệ</a>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero" id="hero">
+    <canvas class="hero-canvas" id="hero-canvas"></canvas>
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Sẵn sàng thực tập
+        </div>
+        <h1 class="hero-name">
+          Xin chào, tôi là<br>
+          <span class="gradient-text">Phan Trần Hữu Duy</span>
+        </h1>
+        <h2 class="hero-title">
+          <span class="typed-text">AI Full-Stack Developer</span>
+        </h2>
+        <p class="hero-description">
+          Sinh viên năm 3 Công nghệ Thông tin tại ĐH Công Thương TP.HCM. 
+          Đam mê ứng dụng AI & Web Development vào các sản phẩm thực tế. 
+          Định hướng trở thành Technical Leader trong lĩnh vực tích hợp trí tuệ nhân tạo.
+        </p>
+        <div class="hero-cta">
+          <a href="#projects" class="btn btn-primary">
+            <span>🚀</span> Xem dự án
+          </a>
+          <a href="#contact" class="btn btn-secondary">
+            <span>📧</span> Liên hệ
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-number">3+</div>
+            <div class="stat-label">Dự án</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">3.27</div>
+            <div class="stat-label">GPA</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">6+</div>
+            <div class="stat-label">Công nghệ</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-avatar">
+          <div class="hero-avatar-placeholder">
+            <span class="hero-avatar-initials">D</span>
+          </div>
+        </div>
+        <div class="avatar-decoration"></div>
+        <div class="avatar-decoration-2"></div>
+        <div class="floating-badge">🤖 YOLOv8</div>
+        <div class="floating-badge">🧠 PhoBERT</div>
+        <div class="floating-badge">⚡ ASP.NET</div>
+        <div class="floating-badge">🎯 PyTorch</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT SECTION ===== -->
+  <section class="section" id="about">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Về tôi</div>
+        <h2 class="section-title">Mục tiêu <span class="highlight">Nghề nghiệp</span></h2>
+      </div>
+      <div class="glass-card reveal" style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <p style="font-size: 1.05rem; color: var(--text-secondary); line-height: 2;">
+          Tìm kiếm cơ hội thực tập vị trí <strong style="color: var(--accent-primary-light);">AI Full-Stack Developer</strong> 
+          để ứng dụng kiến thức về <strong style="color: var(--accent-secondary);">Web Development</strong> và 
+          <strong style="color: var(--accent-secondary);">Trí tuệ nhân tạo</strong> vào các sản phẩm thực tế. 
+          Định hướng dài hạn trở thành <strong style="color: var(--accent-primary-light);">Technical Leader</strong> 
+          trong lĩnh vực phát triển hệ thống tích hợp trí tuệ nhân tạo.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SKILLS SECTION ===== -->
+  <section class="section" id="skills">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Kỹ năng</div>
+        <h2 class="section-title">Kỹ năng <span class="highlight">Kỹ thuật</span></h2>
+      </div>
+      <div class="skills-grid">
+        <!-- AI & Machine Learning -->
+        <div class="skill-card reveal reveal-delay-1">
+          <div class="skill-card-icon">🤖</div>
+          <h3>AI & Machine Learning</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">YOLOv8</span>
+            <span class="skill-tag">EfficientNet-B0</span>
+            <span class="skill-tag">CBAM</span>
+            <span class="skill-tag">PhoBERT</span>
+            <span class="skill-tag">Transformers</span>
+            <span class="skill-tag">Naive Bayes</span>
+            <span class="skill-tag">Prompt Engineering</span>
+            <span class="skill-tag">Gradio</span>
+            <span class="skill-tag">Streamlit</span>
+          </div>
+        </div>
+
+        <!-- Frontend -->
+        <div class="skill-card reveal reveal-delay-2">
+          <div class="skill-card-icon">🎨</div>
+          <h3>Frontend Development</h3>
+          <div class="skill-tags">
+            <span class="skill-tag green">HTML5</span>
+            <span class="skill-tag green">CSS3</span>
+            <span class="skill-tag green">JavaScript (ES6+)</span>
+            <span class="skill-tag green">Responsive Design</span>
+          </div>
+        </div>
+
+        <!-- Backend -->
+        <div class="skill-card reveal reveal-delay-3">
+          <div class="skill-card-icon">⚙️</div>
+          <h3>Backend Development</h3>
+          <div class="skill-tags">
+            <span class="skill-tag coral">C#</span>
+            <span class="skill-tag coral">ASP.NET MVC</span>
+            <span class="skill-tag coral">.NET Framework</span>
+            <span class="skill-tag coral">Python</span>
+            <span class="skill-tag coral">Java</span>
+            <span class="skill-tag coral">Flask</span>
+          </div>
+        </div>
+
+        <!-- Database -->
+        <div class="skill-card reveal reveal-delay-4">
+          <div class="skill-card-icon">🗃️</div>
+          <h3>Database</h3>
+          <div class="skill-tags">
+            <span class="skill-tag gold">SQL Server</span>
+            <span class="skill-tag gold">MySQL</span>
+            <span class="skill-tag gold">SQLite</span>
+            <span class="skill-tag gold">Thiết kế & Tối ưu CSDL</span>
+          </div>
+        </div>
+
+        <!-- Tools & DevOps -->
+        <div class="skill-card reveal reveal-delay-5">
+          <div class="skill-card-icon">🛠️</div>
+          <h3>Tools & DevOps</h3>
+          <div class="skill-tags">
+            <span class="skill-tag">Git</span>
+            <span class="skill-tag">GitHub</span>
+            <span class="skill-tag">VS Code</span>
+            <span class="skill-tag">Visual Studio</span>
+            <span class="skill-tag">IntelliJ</span>
+            <span class="skill-tag">Laragon</span>
+            <span class="skill-tag">Jupyter Notebook</span>
+          </div>
+        </div>
+
+        <!-- Other Skills -->
+        <div class="skill-card reveal reveal-delay-5">
+          <div class="skill-card-icon">📚</div>
+          <h3>Kỹ năng khác</h3>
+          <div class="skill-tags">
+            <span class="skill-tag green">OOP</span>
+            <span class="skill-tag green">Đọc tài liệu Tiếng Anh</span>
+            <span class="skill-tag green">Microsoft Office</span>
+            <span class="skill-tag green">ChatGPT</span>
+            <span class="skill-tag green">Claude AI</span>
+            <span class="skill-tag green">GitHub Copilot</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROJECTS SECTION ===== -->
+  <section class="section" id="projects">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Dự án</div>
+        <h2 class="section-title">Các <span class="highlight">Dự án</span> nổi bật</h2>
+      </div>
+      <div class="projects-grid">
+        
+        <!-- Project 1: Website Bán Văn Phòng Phẩm -->
+        <div class="project-card reveal reveal-delay-1" data-href="projects/van-phong-pham.html" id="project-vpp">
+          <div class="project-card-image">
+            <img src="assets/project_ecommerce.png" alt="Website Bán Văn Phòng Phẩm" loading="lazy">
+            <div class="project-card-overlay">
+              <a href="projects/van-phong-pham.html" class="btn btn-primary">Xem chi tiết →</a>
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-card-role">👥 Trưởng nhóm & Full-Stack Developer</div>
+            <h3>Website Bán Văn Phòng Phẩm</h3>
+            <p>
+              Xây dựng hệ thống e-commerce đầy đủ tính năng với ASP.NET MVC 5: duyệt sản phẩm, 
+              giỏ hàng, thanh toán, đánh giá sản phẩm, quản trị admin với báo cáo doanh thu. 
+              Làm việc nhóm 4 người, đảm nhận vai trò Team Lead.
+            </p>
+            <div class="project-card-tech">
+              <span class="tech-badge">C#</span>
+              <span class="tech-badge">ASP.NET MVC</span>
+              <span class="tech-badge">SQL Server</span>
+              <span class="tech-badge">Bootstrap</span>
+              <span class="tech-badge">jQuery</span>
+              <span class="tech-badge">Figma</span>
+            </div>
+            <div class="project-card-footer">
+              <a href="projects/van-phong-pham.html" class="project-card-link">
+                Xem chi tiết <span>→</span>
+              </a>
+              <a href="https://github.com/Duy35P/Giao-dien-web-ban-van-phong-pham" target="_blank" class="project-card-github">
+                ⭐ GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: Nhận Diện Tiền Việt Nam -->
+        <div class="project-card reveal reveal-delay-2" data-href="projects/nhan-dien-tien.html" id="project-tien">
+          <div class="project-card-image">
+            <img src="assets/project_currency.png" alt="Nhận Diện Tiền Việt Nam" loading="lazy">
+            <div class="project-card-overlay">
+              <a href="projects/nhan-dien-tien.html" class="btn btn-primary">Xem chi tiết →</a>
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-card-role">🧑‍💻 Solo Developer</div>
+            <h3>Nhận Diện Tiền Việt Nam bằng Computer Vision</h3>
+            <p>
+              Hệ thống AI nhận diện và phân loại 9 mệnh giá tiền Việt Nam từ ảnh đầu vào. 
+              Kết hợp 2 mô hình: YOLOv8 (phát hiện vùng tiền) và EfficientNet-B0 + CBAM (phân loại mệnh giá) 
+              với weighted fusion để đạt độ chính xác cao.
+            </p>
+            <div class="project-card-tech">
+              <span class="tech-badge">Python</span>
+              <span class="tech-badge">YOLOv8</span>
+              <span class="tech-badge">EfficientNet-B0</span>
+              <span class="tech-badge">CBAM</span>
+              <span class="tech-badge">Flask</span>
+              <span class="tech-badge">PyTorch</span>
+            </div>
+            <div class="project-card-footer">
+              <a href="projects/nhan-dien-tien.html" class="project-card-link">
+                Xem chi tiết <span>→</span>
+              </a>
+              <a href="https://github.com/Duy35P/NhanDienTienVN" target="_blank" class="project-card-github">
+                ⭐ GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: Phân Loại Cảm Xúc -->
+        <div class="project-card reveal reveal-delay-3" data-href="projects/cam-xuc.html" id="project-camxuc">
+          <div class="project-card-image">
+            <img src="assets/project_sentiment.png" alt="Phân Loại Cảm Xúc từ Bình Luận" loading="lazy">
+            <div class="project-card-overlay">
+              <a href="projects/cam-xuc.html" class="btn btn-primary">Xem chi tiết →</a>
+            </div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-card-role">🧑‍💻 Solo Developer</div>
+            <h3>Phân Loại Cảm Xúc từ Bình Luận</h3>
+            <p>
+              Hệ thống phân tích cảm xúc bình luận tiếng Việt thương mại điện tử. 
+              Fine-tune PhoBERT đạt 78.51% accuracy, kết hợp Naive Bayes. 
+              Hỗ trợ phân tích đơn lẻ, batch upload CSV/Excel, crawl Shopee, dashboard trực quan.
+            </p>
+            <div class="project-card-tech">
+              <span class="tech-badge">Python</span>
+              <span class="tech-badge">PhoBERT</span>
+              <span class="tech-badge">Naive Bayes</span>
+              <span class="tech-badge">Streamlit</span>
+              <span class="tech-badge">PyTorch</span>
+              <span class="tech-badge">Plotly</span>
+            </div>
+            <div class="project-card-footer">
+              <a href="projects/cam-xuc.html" class="project-card-link">
+                Xem chi tiết <span>→</span>
+              </a>
+              <a href="https://github.com/Duy35P/Phan-loai-cam-xuc-tu-binh-luan" target="_blank" class="project-card-github">
+                ⭐ GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EDUCATION SECTION ===== -->
+  <section class="section" id="education">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Học vấn</div>
+        <h2 class="section-title">Trình độ <span class="highlight">Học vấn</span></h2>
+      </div>
+      <div class="education-card reveal">
+        <div class="edu-icon">🎓</div>
+        <div class="edu-info">
+          <h3>Trường Đại học Công Thương TP.HCM</h3>
+          <p class="edu-major">Công nghệ Thông tin</p>
+          <p class="edu-year">Năm 3 (2023 - 2027)</p>
+          <div class="edu-gpa">
+            <span>📊</span> GPA: 3.27
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EXPERIENCE SECTION ===== -->
+  <section class="section" id="experience">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Kinh nghiệm</div>
+        <h2 class="section-title">Kinh nghiệm & <span class="highlight">Hoạt động</span></h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>🎤 Seminar Công nghệ & AI — Trường ĐH Công Thương TP.HCM</h3>
+            <ul>
+              <li>Tham gia các hội thảo chuyên đề về công nghệ thông tin, AI và xu hướng phát triển phần mềm</li>
+              <li>Tham gia các hoạt động hỗ trợ học sinh, sinh viên trong các sự kiện, mùa thi</li>
+              <li>Tự học và thực hành sử dụng các công cụ AI (ChatGPT, Claude, GitHub Copilot) trong quá trình học tập và làm đồ án</li>
+            </ul>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h3>🎖️ Chiến sĩ Dân quân Cơ động — Phường Phú Lâm, TP.HCM</h3>
+            <ul>
+              <li>Tham gia hoạt động cộng đồng tại địa phương, hỗ trợ xử lý và nhập liệu thông tin</li>
+              <li>Rèn luyện kỷ luật, tinh thần trách nhiệm và khả năng làm việc dưới áp lực</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SOFT SKILLS SECTION ===== -->
+  <section class="section" id="softskills">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Kỹ năng mềm</div>
+        <h2 class="section-title">Kỹ năng mềm & <span class="highlight">Định hướng</span></h2>
+      </div>
+      <div class="soft-skills-grid">
+        <div class="soft-skill-item reveal reveal-delay-1">
+          <div class="icon">📖</div>
+          <p><strong>Tinh thần tự học cao</strong> — Thường xuyên theo dõi xu hướng AI/Web thông qua tài liệu tiếng Anh, video kỹ thuật</p>
+        </div>
+        <div class="soft-skill-item reveal reveal-delay-2">
+          <div class="icon">👥</div>
+          <p><strong>Kinh nghiệm lãnh đạo</strong> — Có kinh nghiệm lãnh đạo nhóm nhỏ (4 người), kỹ năng phân công và quản lý tiến độ dự án</p>
+        </div>
+        <div class="soft-skill-item reveal reveal-delay-3">
+          <div class="icon">💡</div>
+          <p><strong>Tư duy hướng sản phẩm</strong> — Luôn đặt câu hỏi "AI có thể giải quyết vấn đề này như thế nào?"</p>
+        </div>
+        <div class="soft-skill-item reveal reveal-delay-4">
+          <div class="icon">⏰</div>
+          <p><strong>Quản lý thời gian</strong> — Khả năng quản lý thời gian tốt, làm việc độc lập và phối hợp nhóm hiệu quả</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CONTACT SECTION ===== -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Liên hệ</div>
+        <h2 class="section-title">Kết nối với <span class="highlight">Tôi</span></h2>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-card reveal reveal-delay-1">
+          <div class="contact-icon">📱</div>
+          <div class="contact-info">
+            <h4>Điện thoại</h4>
+            <p><a href="tel:0965212452">0965 212 452</a></p>
+          </div>
+        </div>
+        <div class="contact-card reveal reveal-delay-2">
+          <div class="contact-icon">📧</div>
+          <div class="contact-info">
+            <h4>Email</h4>
+            <p><a href="mailto:phantranhuuduy@gmail.com">phantranhuuduy@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="contact-card reveal reveal-delay-3">
+          <div class="contact-icon">🐙</div>
+          <div class="contact-info">
+            <h4>GitHub</h4>
+            <p><a href="https://github.com/Duy35P" target="_blank">github.com/Duy35P</a></p>
+          </div>
+        </div>
+        <div class="contact-card reveal reveal-delay-4">
+          <div class="contact-icon">📍</div>
+          <div class="contact-info">
+            <h4>Địa chỉ</h4>
+            <p>336/16/36A Nguyễn Văn Lượng, Phú Lâm, TP. HCM</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2025 <span class="gradient-text">Phan Trần Hữu Duy</span>. Built with ❤️ and ☕</p>
+    </div>
+  </footer>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top">↑</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
