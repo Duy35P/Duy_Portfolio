@@ -565,7 +565,7 @@ img {
 /* --- Skills Section --- */
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
 }
 
@@ -683,7 +683,7 @@ img {
 /* --- Projects Section --- */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 32px;
 }
 
@@ -1482,6 +1482,12 @@ img {
     z-index: 1001;
   }
 
+  .hero {
+    align-items: flex-start;
+    padding-top: 120px;
+    padding-bottom: 60px;
+  }
+
   .hero-name {
     font-size: 2.2rem;
   }
@@ -1513,6 +1519,8 @@ img {
 
   .hero-stats {
     gap: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
   }
 
   .pipeline-steps {
@@ -1553,6 +1561,32 @@ img {
 
   .denomination-grid {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .glass-card, .skill-card, .project-card-body {
+    padding: 20px;
+  }
+
+  .education-card {
+    padding: 20px;
+  }
+
+  .timeline-item {
+    padding-left: 48px;
+  }
+
+  .timeline-dot {
+    left: 10px;
+    width: 14px;
+    height: 14px;
+  }
+
+  .timeline::before {
+    left: 16px;
+  }
+
+  .timeline-content {
+    padding: 16px;
   }
 }
 
