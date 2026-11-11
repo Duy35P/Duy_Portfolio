@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nhận Diện Tiền Việt Nam (VND) — Phan Trần Hữu Duy</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* Page-specific enhancements */
+    .project-hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    .denomination-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 14px;
+    }
+
+    .denomination-item .denomination-icon {
+      font-size: 1.6rem;
+      margin-bottom: 6px;
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: -40px auto 48px;
+      text-align: center;
+      line-height: 1.7;
+    }
+
+    .pipeline-overview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 32px 0;
+    }
+
+    .pipeline-card {
+      text-align: center;
+      padding: 28px 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-glass);
+      border-radius: var(--border-radius-sm);
+      transition: all var(--transition-base);
+    }
+
+    .pipeline-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-glass-hover);
+      transform: translateY(-4px);
+    }
+
+    .pipeline-card .card-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .pipeline-card h4 {
+      font-family: var(--font-heading);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .pipeline-card p {
+      font-size: 0.82rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(108, 99, 255, 0.08), rgba(0, 212, 170, 0.05));
+      border: 1px solid rgba(108, 99, 255, 0.2);
+      border-radius: var(--border-radius);
+      padding: 28px 32px;
+      margin: 32px 0;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .highlight-box .icon {
+      font-size: 2.4rem;
+      flex-shrink: 0;
+    }
+
+    .highlight-box .content h4 {
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--accent-primary-light);
+      margin-bottom: 6px;
+    }
+
+    .highlight-box .content p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    @media (max-width: 768px) {
+      .pipeline-overview {
+        grid-template-columns: 1fr 1fr;
+      }
+      .highlight-box {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .pipeline-overview {
+        grid-template-columns: 1fr;
+      }
+      .denomination-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== PROJECT HERO ===== -->
+  <section class="project-hero">
+    <div class="container">
+      <a href="../index.html" class="btn-back">
+        ← Quay lại trang chủ
+      </a>
+
+      <div class="project-hero-badge" style="color: var(--accent-secondary);">
+        💰 AI &amp; Computer Vision
+      </div>
+
+      <h1>
+        Nhận Diện Tiền <span class="gradient-text">Việt Nam (VND)</span>
+      </h1>
+
+      <p class="project-hero-desc">
+        Ứng dụng web AI phát hiện và nhận diện tiền polymer Việt Nam từ ảnh tải lên. Sử dụng pipeline hai giai đoạn: YOLO để phát hiện vật thể (định vị tờ tiền) và EfficientNet-B0 kết hợp CBAM attention để phân loại, sau đó áp dụng weighted fusion để tổng hợp dự đoán.
+      </p>
+
+      <div class="project-hero-meta">
+        <div class="meta-item">
+          👤 <span>Solo Developer</span>
+        </div>
+        <div class="meta-item">
+          🏷️ <span>Computer Vision</span>
+        </div>
+        <div class="meta-item">
+          💵 <span>9 mệnh giá VND</span>
+        </div>
+        <div class="meta-item">
+          🧠 <span>Two-Stage AI Pipeline</span>
+        </div>
+      </div>
+
+      <div class="project-hero-actions">
+        <a href="https://github.com/Duy35P/NhanDienTienVN" target="_blank" class="btn btn-primary">
+          ⭐ GitHub Repository →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PIPELINE OVERVIEW ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Tổng Quan</div>
+        <h2 class="section-title">Kiến Trúc <span class="highlight">Two-Stage Pipeline</span></h2>
+      </div>
+      <p class="section-subtitle">
+        Hệ thống kết hợp sức mạnh của YOLOv8 (phát hiện) và EfficientNet-B0 + CBAM (phân loại) thông qua cơ chế Weighted Fusion để đạt độ chính xác cao nhất.
+      </p>
+
+      <div class="pipeline-overview">
+        <div class="pipeline-card">
+          <div class="card-icon">📷</div>
+          <h4>Upload Ảnh</h4>
+          <p>Người dùng tải lên ảnh chứa tiền Việt Nam qua giao diện web</p>
+        </div>
+        <div class="pipeline-card">
+          <div class="card-icon">🔍</div>
+          <h4>YOLOv8 Detection</h4>
+          <p>Phát hiện và định vị vị trí từng tờ tiền trong ảnh</p>
+        </div>
+        <div class="pipeline-card">
+          <div class="card-icon">🧠</div>
+          <h4>EfficientNet + CBAM</h4>
+          <p>Phân loại chính xác mệnh giá từng tờ tiền đã crop</p>
+        </div>
+        <div class="pipeline-card">
+          <div class="card-icon">⚡</div>
+          <h4>Weighted Fusion</h4>
+          <p>Kết hợp dự đoán YOLO (α=0.4) và EfficientNet (α=0.6)</p>
+        </div>
+      </div>
+
+      <!-- Diagram 1: Two-Stage Pipeline -->
+      <div class="diagram-container">
+        <h3>📊 Sơ Đồ Pipeline Hai Giai Đoạn</h3>
+        <div class="mermaid">
+flowchart TD
+    A["📷 Upload Ảnh"] --> B["🔍 YOLOv8 Detection\n(conf=0.3, iou=0.45)"]
+    B --> C["📦 Bounding Boxes"]
+    C --> D["✂️ Crop từng vùng tiền"]
+    D --> E["🧠 EfficientNet-B0 + CBAM\nClassification (224×224)"]
+    E --> F["⚖️ Weighted Fusion\n(α=0.4 YOLO, 0.6 EfficientNet)"]
+    F --> G["✅ Kết quả"]
+    G --> G1["🖼️ Ảnh annotated"]
+    G --> G2["📋 Bảng detection"]
+    G --> G3["💰 Tổng giá trị VND"]
+
+    style A fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style B fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style C fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+    style D fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+    style E fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style F fill:#1a1a2e,stroke:#f5c842,color:#e8e8f0
+    style G fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+    style G1 fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style G2 fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style G3 fill:#1a1a2e,stroke:#f5c842,color:#e8e8f0
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CBAM ARCHITECTURE ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Attention Module</div>
+        <h2 class="section-title">Kiến Trúc <span class="highlight">CBAM</span></h2>
+      </div>
+      <p class="section-subtitle">
+        CBAM (Convolutional Block Attention Module) áp dụng attention tuần tự theo kênh (channel) và không gian (spatial) để tăng cường khả năng biểu diễn đặc trưng.
+      </p>
+
+      <!-- Diagram 2: CBAM Architecture -->
+      <div class="diagram-container">
+        <h3>🔬 Cơ Chế CBAM Attention</h3>
+        <div class="mermaid">
+flowchart LR
+    A["📥 Input Features\n(1280 channels)"] --> B["Channel Attention"]
+    
+    subgraph CA ["Channel Attention Module"]
+        direction TB
+        B1["AdaptiveAvgPool"] --> B3["MLP"]
+        B2["AdaptiveMaxPool"] --> B3
+        B3 --> B4["Sigmoid"]
+    end
+    
+    B --> CA
+    CA --> C["✖️ Multiply"]
+    C --> D["Spatial Attention"]
+    
+    subgraph SA ["Spatial Attention Module"]
+        direction TB
+        D1["AvgPool"] --> D3["Conv2d(7×7)"]
+        D2["MaxPool"] --> D3
+        D3 --> D4["Sigmoid"]
+    end
+    
+    D --> SA
+    SA --> E["✖️ Multiply"]
+    E --> F["📤 Output Features"]
+
+    style A fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style C fill:#1a1a2e,stroke:#f5c842,color:#e8e8f0
+    style E fill:#1a1a2e,stroke:#f5c842,color:#e8e8f0
+    style F fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+    style CA fill:#1e1e2f,stroke:#6c63ff,color:#e8e8f0
+    style SA fill:#1a2f2a,stroke:#00d4aa,color:#e8e8f0
+        </div>
+      </div>
+
+      <div class="highlight-box">
+        <div class="icon">💡</div>
+        <div class="content">
+          <h4>Tại sao CBAM?</h4>
+          <p>CBAM giúp mô hình tập trung vào các kênh đặc trưng quan trọng (ví dụ: màu sắc, hoa văn đặc trưng của từng mệnh giá) và các vùng không gian chứa thông tin phân biệt (số mệnh giá, watermark, hình ảnh đặc trưng) — tăng đáng kể độ chính xác phân loại.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MODEL ARCHITECTURE ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Mô Hình</div>
+        <h2 class="section-title">EfficientNet-B0 + <span class="highlight">CBAM</span></h2>
+      </div>
+
+      <!-- Diagram 3: EfficientNet-B0 + CBAM Model -->
+      <div class="diagram-container">
+        <h3>🏗️ Kiến Trúc Mô Hình Phân Loại</h3>
+        <div class="mermaid">
+flowchart TD
+    A["🖼️ Input\n(224 × 224 × 3)"] --> B["EfficientNet-B0\nBackbone"]
+    B --> C["Features\n(1280)"]
+    C --> D["🔍 CBAM Module"]
+    D --> E["AdaptiveAvgPool2d"]
+    E --> F["Dropout(0.3)"]
+    F --> G["Linear(1280 → 256)"]
+    G --> H["ReLU"]
+    H --> I["Dropout(0.3)"]
+    I --> J["Linear(256 → 9)"]
+    J --> K["🎯 9 Classes Output"]
+
+    style A fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style B fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style C fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+    style D fill:#1a1a2e,stroke:#f5c842,color:#e8e8f0
+    style E fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style F fill:#1a1a2e,stroke:#ff6b6b,color:#e8e8f0
+    style G fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style H fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+    style I fill:#1a1a2e,stroke:#ff6b6b,color:#e8e8f0
+    style J fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style K fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DENOMINATIONS ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Mệnh Giá</div>
+        <h2 class="section-title">Hỗ Trợ <span class="highlight">9 Mệnh Giá</span> VND</h2>
+      </div>
+      <p class="section-subtitle">
+        Hệ thống nhận diện chính xác tất cả 9 loại tiền polymer đang lưu hành tại Việt Nam.
+      </p>
+
+      <div class="denomination-grid">
+        <div class="denomination-item">
+          <div class="denomination-icon">💵</div>
+          <div class="denomination-value">1.000</div>
+          <div class="denomination-label">VND</div>
+        </div>
+        <div class="denomination-item">
+          <div class="denomination-icon">💵</div>
+          <div class="denomination-value">2.000</div>
+          <div class="denomination-label">VND</div>
+        </div>
+        <div class="denomination-item">
+          <div class="denomination-icon">💵</div>
+          <div class="denomination-value">5.000</div>
+          <div class="denomination-label">VND</div>
+        </div>
+        <div class="denomination-item">
+          <div class="denomination-icon">💴</div>
+          <div class="denomination-value">10.000</div>
+          <div class="denomination-label">VND</div>
+        </div>
+        <div class="denomination-item">
+          <div class="denomination-icon">💴</div>
+          <div class="denomination-value">20.000</div>
+          <div class="denomination-label">VND</div>
+        </div>
+        <div class="denomination-item">
+          <div class="denomination-icon">💴</div>
+          <div class="denomination-value">50.000</div>
+          <div class="denomination-label">VND</div>
+        </div>
+        <div class="denomination-item">
+          <div class="denomination-icon">💎</div>
+          <div class="denomination-value">100.000</div>
+          <div class="denomination-label">VND</div>
+        </div>
+        <div class="denomination-item">
+          <div class="denomination-icon">💎</div>
+          <div class="denomination-value">200.000</div>
+          <div class="denomination-label">VND</div>
+        </div>
+        <div class="denomination-item">
+          <div class="denomination-icon">💎</div>
+          <div class="denomination-value">500.000</div>
+          <div class="denomination-label">VND</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== KEY FEATURES ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Tính Năng</div>
+        <h2 class="section-title">Tính Năng <span class="highlight">Nổi Bật</span></h2>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-item-icon">🤖</div>
+          <div>
+            <h4>Two-Stage AI Pipeline</h4>
+            <p>Kết hợp YOLOv8 (phát hiện vật thể) và EfficientNet-B0 (phân loại) để tối ưu hóa cả tốc độ và độ chính xác nhận diện.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">🔬</div>
+          <div>
+            <h4>CBAM Attention Module</h4>
+            <p>Module attention kênh và không gian giúp mô hình tập trung vào các đặc trưng quan trọng của từng mệnh giá tiền.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">🌙</div>
+          <div>
+            <h4>Dark-mode Premium UI</h4>
+            <p>Giao diện web tối hiện đại, sang trọng với thiết kế premium, thân thiện người dùng.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">📤</div>
+          <div>
+            <h4>Drag-and-Drop Upload</h4>
+            <p>Hỗ trợ kéo thả hoặc chọn ảnh từ thiết bị để tải lên nhanh chóng và tiện lợi.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">📊</div>
+          <div>
+            <h4>Bảng Kết Quả Chi Tiết</h4>
+            <p>Hiển thị bảng chi tiết với thông tin từng tờ tiền: mệnh giá, độ tin cậy, và bounding box.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">🔗</div>
+          <div>
+            <h4>Agreement Tracking</h4>
+            <p>Theo dõi và hiển thị mức độ đồng thuận giữa dự đoán của YOLO và EfficientNet cho từng detection.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TECH STACK ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Công Nghệ</div>
+        <h2 class="section-title">Tech <span class="highlight">Stack</span></h2>
+      </div>
+
+      <div class="glass-card">
+        <table class="tech-table">
+          <thead>
+            <tr>
+              <th>Công Nghệ</th>
+              <th>Mục Đích</th>
+              <th>Chi Tiết</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Python</td>
+              <td>Ngôn ngữ chính</td>
+              <td>Ngôn ngữ lập trình chính cho toàn bộ dự án</td>
+            </tr>
+            <tr>
+              <td>YOLOv8</td>
+              <td>Object Detection</td>
+              <td>Phát hiện và định vị tiền trong ảnh (conf=0.3, iou=0.45)</td>
+            </tr>
+            <tr>
+              <td>EfficientNet-B0</td>
+              <td>Image Classification</td>
+              <td>Backbone phân loại mệnh giá với kiến trúc nhẹ và hiệu quả</td>
+            </tr>
+            <tr>
+              <td>CBAM</td>
+              <td>Attention Module</td>
+              <td>Channel &amp; Spatial Attention tăng cường đặc trưng</td>
+            </tr>
+            <tr>
+              <td>PyTorch</td>
+              <td>Deep Learning Framework</td>
+              <td>Framework xây dựng và huấn luyện mô hình</td>
+            </tr>
+            <tr>
+              <td>OpenCV</td>
+              <td>Image Processing</td>
+              <td>Xử lý ảnh, crop vùng detection, annotation</td>
+            </tr>
+            <tr>
+              <td>Flask</td>
+              <td>Web Backend</td>
+              <td>Framework web phục vụ API inference</td>
+            </tr>
+            <tr>
+              <td>Gradio</td>
+              <td>Demo UI</td>
+              <td>Giao diện demo nhanh cho mô hình AI</td>
+            </tr>
+            <tr>
+              <td>Jupyter Notebook</td>
+              <td>Experimentation</td>
+              <td>Phân tích dữ liệu, training và đánh giá mô hình</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DEMO USER FLOW ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Trải Nghiệm</div>
+        <h2 class="section-title">Demo <span class="highlight">User Flow</span></h2>
+      </div>
+
+      <!-- Diagram 4: Demo User Flow -->
+      <div class="diagram-container">
+        <h3>🚀 Luồng Sử Dụng Ứng Dụng</h3>
+        <div class="mermaid">
+flowchart LR
+    A["🌐 Mở Web App"] --> B["🖼️ Kéo thả /\nChọn ảnh"]
+    B --> C["📤 Upload"]
+    C --> D["🤖 AI Xử lý"]
+    
+    subgraph Pipeline ["AI Pipeline"]
+        direction TB
+        D1["YOLOv8"] --> D2["EfficientNet"]
+        D2 --> D3["Fusion"]
+    end
+    
+    D --> Pipeline
+    Pipeline --> E["📊 Hiển thị\nkết quả"]
+    
+    E --> E1["🖼️ Ảnh annotated"]
+    E --> E2["📋 Bảng chi tiết"]
+    E --> E3["💰 Tổng tiền"]
+    
+    E1 --> F["🔄 Upload\nảnh mới"]
+    E2 --> F
+    E3 --> F
+    F --> B
+
+    style A fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style B fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style C fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+    style D fill:#1a1a2e,stroke:#f5c842,color:#e8e8f0
+    style Pipeline fill:#1e1e2f,stroke:#6c63ff,color:#e8e8f0
+    style E fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+    style E1 fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style E2 fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style E3 fill:#1a1a2e,stroke:#f5c842,color:#e8e8f0
+    style F fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WEIGHTED FUSION DETAIL ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Chi Tiết</div>
+        <h2 class="section-title">Weighted <span class="highlight">Fusion</span></h2>
+      </div>
+
+      <div class="glass-card">
+        <div style="text-align: center; margin-bottom: 28px;">
+          <p style="font-size: 1rem; color: var(--text-secondary); line-height: 1.8;">
+            Hệ thống sử dụng cơ chế <strong style="color: var(--accent-primary-light);">Weighted Fusion</strong> để kết hợp dự đoán từ hai mô hình,
+            giúp tăng độ tin cậy và giảm false positive.
+          </p>
+        </div>
+
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Mô hình</th>
+              <th>Trọng số (α)</th>
+              <th>Vai trò</th>
+              <th>Đặc điểm</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color: var(--accent-primary-light); font-weight: 600;">YOLOv8</td>
+              <td class="highlight-cell">0.4</td>
+              <td>Detection + Classification</td>
+              <td>Nhanh, phát hiện vị trí chính xác</td>
+            </tr>
+            <tr>
+              <td style="color: var(--accent-primary-light); font-weight: 600;">EfficientNet-B0 + CBAM</td>
+              <td class="highlight-cell">0.6</td>
+              <td>Fine-grained Classification</td>
+              <td>Độ chính xác phân loại cao hơn với attention</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="highlight-box" style="margin-top: 24px;">
+          <div class="icon">⚡</div>
+          <div class="content">
+            <h4>Công thức Fusion</h4>
+            <p style="font-family: var(--font-mono); color: var(--accent-gold);">
+              Final Score = α × YOLO_confidence + (1 − α) × EfficientNet_confidence
+            </p>
+            <p style="margin-top: 8px;">
+              Với α = 0.4, hệ thống ưu tiên kết quả phân loại từ EfficientNet-B0 + CBAM vì mô hình này được thiết kế chuyên biệt cho bài toán phân loại ảnh.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="section" style="padding-top: 0; padding-bottom: 60px;">
+    <div class="container">
+      <div class="glass-card" style="text-align: center; padding: 48px;">
+        <h3 style="font-family: var(--font-heading); font-size: 1.6rem; font-weight: 700; margin-bottom: 12px;">
+          🚀 Xem mã nguồn trên GitHub
+        </h3>
+        <p style="color: var(--text-secondary); margin-bottom: 28px; max-width: 500px; margin-left: auto; margin-right: auto;">
+          Khám phá toàn bộ source code, notebook huấn luyện, và hướng dẫn triển khai dự án.
+        </p>
+        <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+          <a href="https://github.com/Duy35P/NhanDienTienVN" target="_blank" class="btn btn-primary">
+            ⭐ GitHub Repository →
+          </a>
+          <a href="../index.html" class="btn btn-secondary">
+            ← Quay lại Portfolio
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <p>
+        Thiết kế &amp; phát triển bởi
+        <span class="gradient-text">Phan Trần Hữu Duy</span>
+        © 2025
+      </p>
+    </div>
+  </footer>
+
+  <!-- Mermaid.js -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#6c63ff',
+        primaryTextColor: '#e8e8f0',
+        primaryBorderColor: '#6c63ff',
+        secondaryColor: '#00d4aa',
+        tertiaryColor: '#1a1a2e',
+        lineColor: '#6c63ff',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '14px'
+      }
+    });
+  </script>
+
+  <!-- Scroll Reveal -->
+  <script>
+    // Scroll reveal animation
+    const revealElements = document.querySelectorAll('.section-header, .glass-card, .diagram-container, .feature-item, .pipeline-card, .denomination-item, .highlight-box');
+    
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }, index * 80);
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    revealElements.forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+      revealObserver.observe(el);
+    });
+  </script>
+
+</body>
+</html>

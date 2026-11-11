@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Bán Văn Phòng Phẩm — Phan Trần Hữu Duy</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .project-hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: -40px auto 48px;
+      text-align: center;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== PROJECT HERO ===== -->
+  <section class="project-hero">
+    <div class="container">
+      <a href="../index.html" class="btn-back">
+        ← Quay lại trang chủ
+      </a>
+      <div class="project-hero-badge" style="color: var(--accent-primary);">
+        🛒 E-commerce &amp; Full-Stack
+      </div>
+      <h1>Website Bán <span class="gradient-text">Văn Phòng Phẩm</span></h1>
+      <p class="project-hero-desc">
+        Hệ thống e-commerce đầy đủ tính năng được xây dựng bằng ASP.NET MVC 5 và SQL Server. Cung cấp trải nghiệm mua sắm trực tuyến toàn diện từ duyệt sản phẩm, tìm kiếm nâng cao, giỏ hàng, thanh toán đến quản trị hệ thống cho admin với các báo cáo doanh thu chi tiết.
+      </p>
+      <div class="project-hero-meta">
+        <div class="meta-item">👤 <span>Trưởng nhóm &amp; Full-Stack (Nhóm 4 người)</span></div>
+        <div class="meta-item">🏷️ <span>Web Development</span></div>
+        <div class="meta-item">⚡ <span>ASP.NET MVC 5</span></div>
+      </div>
+      <div class="project-hero-actions">
+        <a href="https://github.com/Duy35P/Giao-dien-web-ban-van-phong-pham" target="_blank" class="btn btn-primary">
+          ⭐ GitHub Repository →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ARCHITECTURE ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Kiến trúc</div>
+        <h2 class="section-title">Kiến trúc <span class="highlight">MVC Pattern</span></h2>
+      </div>
+      
+      <div class="diagram-container">
+        <h3>🏛️ ASP.NET MVC Architecture</h3>
+        <div class="mermaid">
+flowchart TD
+    Client["🌐 Trình duyệt / Client"] <--> |HTTP Request/Response| Controllers
+    
+    subgraph MVC ["ASP.NET MVC 5 Application"]
+        direction TB
+        Controllers["⚙️ Controllers\n(Home, Admin, Cart, User)"]
+        Views["🎨 Views (Razor .cshtml)\n(28 Views)"]
+        Models["📦 Models\n(Entity Framework)"]
+        
+        Controllers -->|Trả về| Views
+        Controllers <-->|Đọc/Ghi dữ liệu| Models
+        Views -->|Hiển thị dữ liệu| Client
+    end
+    
+    Models <-->|Truy vấn| DB[("🗄️ SQL Server Database\n(QL_VanPhongPham)")]
+
+    style Client fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style Controllers fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+    style Views fill:#1a1a2e,stroke:#f5c842,color:#e8e8f0
+    style Models fill:#1a1a2e,stroke:#ff6b6b,color:#e8e8f0
+    style DB fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style MVC fill:#1e1e2f,stroke:#6c63ff,color:#e8e8f0
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DATABASE SCHEMA ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Database</div>
+        <h2 class="section-title">Sơ đồ <span class="highlight">Cơ sở dữ liệu</span></h2>
+      </div>
+      <p class="section-subtitle">Hệ thống quản lý với 12 bảng liên kết chặt chẽ sử dụng Entity Framework (Database-First).</p>
+      
+      <div class="diagram-container">
+        <h3>🗃️ Entity Relationship Diagram (ERD)</h3>
+        <div class="mermaid">
+erDiagram
+    tblSanPham {
+        int MaSP PK
+        string TenSP
+        int SoLuongTon
+        float GiaBan
+        int MaLoai FK
+        int MaNCC FK
+    }
+    tblLoaiSP {
+        int MaLoai PK
+        string TenLoai
+    }
+    tblNhaCungCap {
+        int MaNCC PK
+        string TenNCC
+    }
+    tblHoaDon {
+        int MaHD PK
+        int MaKH FK
+        int MaNV FK
+        float TongTien
+        int TinhTrang FK
+    }
+    tblChiTietHoaDon {
+        int MaHD PK,FK
+        int MaSP PK,FK
+        int SoLuong
+    }
+    tblKhachHang {
+        int MaKH PK
+        string TenKH
+        string Email
+    }
+    tblNhanVien {
+        int MaNV PK
+        string TenNV
+        int VaiTro FK
+    }
+    tblDanhGia {
+        int MaSP FK
+        int MaKH FK
+        int Diem
+    }
+    
+    tblLoaiSP ||--o{ tblSanPham : "phân loại"
+    tblNhaCungCap ||--o{ tblSanPham : "cung cấp"
+    tblSanPham ||--o{ tblChiTietHoaDon : "thuộc"
+    tblHoaDon ||--|{ tblChiTietHoaDon : "chứa"
+    tblKhachHang ||--o{ tblHoaDon : "đặt hàng"
+    tblNhanVien ||--o{ tblHoaDon : "duyệt"
+    tblKhachHang ||--o{ tblDanhGia : "viết"
+    tblSanPham ||--o{ tblDanhGia : "nhận"
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== USER FLOW ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Quy trình</div>
+        <h2 class="section-title">Luồng Mua Hàng &amp; <span class="highlight">Admin</span></h2>
+      </div>
+      
+      <div class="diagram-container">
+        <h3>🛍️ Luồng Khách Hàng (Customer Flow)</h3>
+        <div class="mermaid">
+flowchart LR
+    A["Trang chủ"] --> B{"Tìm kiếm\nSản phẩm"}
+    B -->|Danh mục| C["Lọc theo loại"]
+    B -->|Keyword| D["Tìm kiếm nâng cao"]
+    C --> E["Xem chi tiết & Đánh giá"]
+    D --> E
+    E --> F["Thêm vào Giỏ hàng"]
+    F --> G{"Đã đăng nhập?"}
+    G -->|Chưa| H["Đăng nhập / Đăng ký"]
+    H --> I["Thanh toán & Chọn địa chỉ"]
+    G -->|Rồi| I
+    I --> J["Xác nhận Đơn hàng"]
+
+    style A fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style J fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+        </div>
+      </div>
+
+      <div class="diagram-container">
+        <h3>🛡️ Luồng Quản Trị (Admin Workflow)</h3>
+        <div class="mermaid">
+flowchart TD
+    A["Đăng nhập Admin"] --> B["📊 Dashboard"]
+    B --> C["📦 Quản lý Sản phẩm\n(CRUD, Toggle Status)"]
+    B --> D["📋 Quản lý Đơn hàng\n(Cập nhật trạng thái)"]
+    B --> E["👥 Quản lý Nhân viên\n& Khách hàng"]
+    B --> F["📈 Báo cáo Doanh thu"]
+    
+    D --> D1["⏳ Chờ xác nhận"]
+    D1 --> D2["🚚 Đang giao"]
+    D2 --> D3["✅ Đã giao"]
+    D1 --> D4["❌ Đã hủy"]
+
+    style A fill:#1a1a2e,stroke:#ff6b6b,color:#e8e8f0
+    style B fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Tính Năng</div>
+        <h2 class="section-title">Tính Năng <span class="highlight">Chi Tiết</span></h2>
+      </div>
+      
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-item-icon">🔍</div>
+          <div>
+            <h4>Tìm Kiếm Nâng Cao</h4>
+            <p>Cho phép tìm kiếm kết hợp keyword, danh mục, khoảng giá và sắp xếp theo giá tăng/giảm dần.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">⭐</div>
+          <div>
+            <h4>Hệ Thống Đánh Giá</h4>
+            <p>Khách hàng có thể để lại đánh giá 1-5 sao và bình luận cho sản phẩm đã mua.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">🔐</div>
+          <div>
+            <h4>Bảo Mật OWIN & OAuth</h4>
+            <p>Xác thực Cookie-based, hỗ trợ đăng nhập qua Facebook/Google và bảo vệ CSRF trên mọi POST requests.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">📈</div>
+          <div>
+            <h4>Báo Cáo Doanh Thu</h4>
+            <p>Admin panel tích hợp công cụ phân tích và báo cáo doanh thu tự động từ đơn hàng.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">📦</div>
+          <div>
+            <h4>Quản Lý Trạng Thái</h4>
+            <p>Theo dõi luồng đơn hàng chi tiết: Chờ xác nhận → Đang giao → Đã giao hoặc Hủy đơn.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">👥</div>
+          <div>
+            <h4>Quản Lý Vai Trò</h4>
+            <p>Phân quyền chi tiết giữa Admin và Nhân viên, quản lý tài khoản khách hàng toàn diện.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TECH STACK ===== -->
+  <section class="section" style="padding-top: 0; padding-bottom: 60px;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Công Nghệ</div>
+        <h2 class="section-title">Tech <span class="highlight">Stack</span></h2>
+      </div>
+      <div class="glass-card">
+        <table class="tech-table">
+          <thead>
+            <tr>
+              <th>Thành phần</th>
+              <th>Công nghệ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Backend</strong></td>
+              <td>ASP.NET MVC 5 (.NET Framework 4.7.2), C#</td>
+            </tr>
+            <tr>
+              <td><strong>ORM</strong></td>
+              <td>Entity Framework 5.0 (Database-First)</td>
+            </tr>
+            <tr>
+              <td><strong>Database</strong></td>
+              <td>SQL Server</td>
+            </tr>
+            <tr>
+              <td><strong>Frontend</strong></td>
+              <td>Razor Views (.cshtml), Bootstrap 5.2.3</td>
+            </tr>
+            <tr>
+              <td><strong>JavaScript</strong></td>
+              <td>jQuery 3.7.0 + Validation</td>
+            </tr>
+            <tr>
+              <td><strong>Security & Auth</strong></td>
+              <td>Microsoft.Owin.Security, Facebook + Google OAuth</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <p>Thiết kế &amp; phát triển bởi <span class="gradient-text">Phan Trần Hữu Duy</span> © 2025</p>
+    </div>
+  </footer>
+
+  <!-- Mermaid.js -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#6c63ff',
+        primaryTextColor: '#e8e8f0',
+        primaryBorderColor: '#6c63ff',
+        secondaryColor: '#00d4aa',
+        tertiaryColor: '#1a1a2e',
+        lineColor: '#6c63ff',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '14px'
+      }
+    });
+  </script>
+</body>
+</html>

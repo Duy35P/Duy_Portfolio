@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Team Task Manager App — Phan Trần Hữu Duy</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .project-hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: -40px auto 48px;
+      text-align: center;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== PROJECT HERO ===== -->
+  <section class="project-hero">
+    <div class="container">
+      <a href="../index.html" class="btn-back">
+        ← Quay lại trang chủ
+      </a>
+      <div class="project-hero-badge" style="color: var(--accent-secondary);">
+        📋 Mobile &amp; Cloud Realtime
+      </div>
+      <h1>Team Task <span class="gradient-text">Manager App</span></h1>
+      <p class="project-hero-desc">
+        Ứng dụng quản lý công việc nhóm (TeamTask) xây dựng bằng Flutter và Firebase. Người dùng tạo nhóm, mời thành viên, giao việc, theo dõi tiến độ qua Dashboard, Kanban Board và Timeline. Dữ liệu đồng bộ real-time bằng Cloud Firestore, có phân quyền giữa trưởng nhóm và thành viên.
+      </p>
+      <div class="project-hero-meta">
+        <div class="meta-item">👤 <span>Dự án cá nhân</span></div>
+        <div class="meta-item">🏷️ <span>Mobile / Web / Desktop</span></div>
+        <div class="meta-item">⚡ <span>Flutter · Firebase</span></div>
+      </div>
+      <div class="project-hero-actions">
+        <a href="https://github.com/Duy35P/team_task_manager_app" target="_blank" class="btn btn-primary">
+          ⭐ GitHub Repository →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ARCHITECTURE ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Kiến trúc</div>
+        <h2 class="section-title">Kiến trúc <span class="highlight">Ứng Dụng</span></h2>
+      </div>
+      <p class="section-subtitle">Giao diện Flutter lắng nghe dữ liệu từ Firestore qua Stream nên mọi thay đổi của thành viên trong nhóm được cập nhật tức thì trên các thiết bị.</p>
+
+      <div class="diagram-container">
+        <h3>🏛️ App Architecture</h3>
+        <div class="mermaid">
+flowchart TD
+    User["👤 Người dùng\n(Android · iOS · Web · Windows)"] --> UI
+
+    subgraph UI ["Flutter UI"]
+        direction LR
+        S1["📊 Dashboard"]
+        S2["✅ Công việc"]
+        S3["🗂️ Kanban"]
+        S4["👥 Nhóm"]
+        S5["📅 Timeline"]
+        S6["🙍 Tài khoản"]
+    end
+
+    UI --> Services
+
+    subgraph Services ["Service Layer"]
+        direction LR
+        A["AuthService"]
+        B["FirestoreService"]
+    end
+
+    A --> FA[("🔐 Firebase Authentication")]
+    B <-->|"Stream real-time"| FS[("☁️ Cloud Firestore")]
+
+    style User fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style UI fill:#1e1e2f,stroke:#6c63ff,color:#e8e8f0
+    style Services fill:#1e1e2f,stroke:#00d4aa,color:#e8e8f0
+    style FA fill:#1a1a2e,stroke:#f5c842,color:#e8e8f0
+    style FS fill:#1a1a2e,stroke:#ff6b6b,color:#e8e8f0
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DATA MODEL ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Dữ liệu</div>
+        <h2 class="section-title">Mô Hình <span class="highlight">Firestore</span></h2>
+      </div>
+      <p class="section-subtitle">Mỗi nhóm là một document trong collection groups, các dữ liệu con (task, timeline, thành viên, hoạt động) được lưu trong sub-collection.</p>
+
+      <div class="diagram-container">
+        <h3>🗃️ Cấu trúc dữ liệu</h3>
+        <div class="mermaid">
+erDiagram
+    users {
+        string uid PK
+        string email
+        string displayName
+    }
+    groups {
+        string id PK
+        string name
+        string description
+        bool isActive
+        string createdBy FK
+        array memberIds
+    }
+    tasks {
+        string id PK
+        string title
+        string status
+        string assignee
+        string deadline
+        string type
+    }
+    timeline {
+        string id PK
+        string taskId FK
+        string title
+        int startCol
+        int spanCols
+    }
+    members {
+        string id PK
+        string userId FK
+        string name
+        string role
+    }
+    activities {
+        string id PK
+        string actor
+        string action
+        string detail
+    }
+    users ||--o{ groups : "tạo / tham gia"
+    groups ||--o{ tasks : "chứa"
+    groups ||--o{ timeline : "chứa"
+    groups ||--o{ members : "chứa"
+    groups ||--o{ activities : "ghi nhật ký"
+    tasks ||--o| timeline : "hiển thị"
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WORKFLOW ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Phân quyền</div>
+        <h2 class="section-title">Quy Trình <span class="highlight">Làm Việc Nhóm</span></h2>
+      </div>
+      <p class="section-subtitle">Trưởng nhóm (Admin) quản lý toàn bộ công việc, thành viên chỉ được cập nhật trạng thái những task được giao cho mình.</p>
+
+      <div class="diagram-container">
+        <h3>👥 Task Workflow &amp; Permissions</h3>
+        <div class="mermaid">
+flowchart TD
+    A["Đăng nhập / Đăng ký\n(Email + Mật khẩu)"] --> B["Tạo nhóm mới\n→ trở thành Admin"]
+    B --> C["Thêm thành viên\n(tìm theo email)"]
+    C --> D{"Vai trò?"}
+    D -->|"Admin"| E["Thêm / Sửa / Xóa task\nGiao việc cho thành viên"]
+    D -->|"Thành viên"| F["Xem danh sách task"]
+    E --> G["Task xuất hiện ở\nDanh sách · Kanban · Timeline"]
+    F --> H{"Task được giao\ncho mình?"}
+    H -->|Có| I["Đổi trạng thái trên Kanban\nChờ làm → Đang làm → Hoàn thành"]
+    H -->|Không| J["Chỉ xem, không thao tác"]
+    I --> K["🔄 Đồng bộ real-time\ncho cả nhóm"]
+    E --> K
+
+    style A fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style E fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+    style I fill:#1a1a2e,stroke:#f5c842,color:#e8e8f0
+    style K fill:#1a1a2e,stroke:#ff6b6b,color:#e8e8f0
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Tính Năng</div>
+        <h2 class="section-title">Tính Năng <span class="highlight">Chi Tiết</span></h2>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-item-icon">🔐</div>
+          <div>
+            <h4>Xác Thực Người Dùng</h4>
+            <p>Đăng ký, đăng nhập, đặt lại mật khẩu qua email với Firebase Auth và thông báo lỗi bằng tiếng Việt.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">🗂️</div>
+          <div>
+            <h4>Kanban Board</h4>
+            <p>Theo dõi task qua 3 cột Chờ làm, Đang làm, Hoàn thành và chuyển trạng thái trực tiếp trên thẻ.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">📊</div>
+          <div>
+            <h4>Dashboard Tổng Quan</h4>
+            <p>Xem tiến độ từng nhóm, danh sách thành viên và các công việc gần đây ngay trên một màn hình.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">📅</div>
+          <div>
+            <h4>Timeline</h4>
+            <p>Hiển thị lịch trình công việc dạng thanh thời gian, mỗi task có màu và độ dài theo kế hoạch.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">🔄</div>
+          <div>
+            <h4>Đồng Bộ Real-time</h4>
+            <p>Dùng Firestore Stream để cập nhật task, thành viên và hoạt động tức thì cho mọi người trong nhóm.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">🛡️</div>
+          <div>
+            <h4>Phân Quyền Admin / Member</h4>
+            <p>Chỉ trưởng nhóm được thêm, sửa, xóa task; thành viên chỉ đổi trạng thái task của chính mình.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">👥</div>
+          <div>
+            <h4>Quản Lý Nhóm &amp; Thành Viên</h4>
+            <p>Tạo nhóm, mời thành viên bằng email, xem vai trò Leader / Member và nhật ký hoạt động của nhóm.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">📱</div>
+          <div>
+            <h4>Đa Nền Tảng &amp; Responsive</h4>
+            <p>Một codebase Flutter chạy trên Android, iOS, Web, Windows với bố cục tự thích ứng màn hình nhỏ.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TECH STACK ===== -->
+  <section class="section" style="padding-top: 0; padding-bottom: 60px;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Công Nghệ</div>
+        <h2 class="section-title">Tech <span class="highlight">Stack</span></h2>
+      </div>
+      <div class="glass-card">
+        <table class="tech-table">
+          <thead>
+            <tr>
+              <th>Thành phần</th>
+              <th>Công nghệ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Framework</strong></td>
+              <td>Flutter 3.x, Dart 3.10</td>
+            </tr>
+            <tr>
+              <td><strong>Xác thực</strong></td>
+              <td>Firebase Authentication (Email / Password)</td>
+            </tr>
+            <tr>
+              <td><strong>Cơ sở dữ liệu</strong></td>
+              <td>Cloud Firestore (NoSQL, real-time listeners)</td>
+            </tr>
+            <tr>
+              <td><strong>Nền tảng</strong></td>
+              <td>Android, iOS, Web, Windows</td>
+            </tr>
+            <tr>
+              <td><strong>Giao diện</strong></td>
+              <td>Material Design, layout responsive (sidebar / mobile)</td>
+            </tr>
+            <tr>
+              <td><strong>Công cụ</strong></td>
+              <td>FlutterFire CLI, Android Studio, Git &amp; GitHub</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <p>Thiết kế &amp; phát triển bởi <span class="gradient-text">Phan Trần Hữu Duy</span> © 2025</p>
+    </div>
+  </footer>
+
+  <!-- Mermaid.js -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#6c63ff',
+        primaryTextColor: '#e8e8f0',
+        primaryBorderColor: '#6c63ff',
+        secondaryColor: '#00d4aa',
+        tertiaryColor: '#1a1a2e',
+        lineColor: '#6c63ff',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '14px'
+      }
+    });
+  </script>
+</body>
+</html>

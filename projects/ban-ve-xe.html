@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ứng Dụng Bán Vé Xe — Phan Trần Hữu Duy</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .project-hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: -40px auto 48px;
+      text-align: center;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== PROJECT HERO ===== -->
+  <section class="project-hero">
+    <div class="container">
+      <a href="../index.html" class="btn-back">
+        ← Quay lại trang chủ
+      </a>
+      <div class="project-hero-badge" style="color: var(--accent-gold);">
+        🚌 Desktop App &amp; Quản lý vé
+      </div>
+      <h1>Ứng Dụng <span class="gradient-text">Bán Vé Xe</span></h1>
+      <p class="project-hero-desc">
+        Phần mềm desktop quản lý và bán vé xe khách xây dựng bằng C# Windows Forms trên .NET Framework 4.8 và SQL Server. Hệ thống phân quyền 3 vai trò (Khách hàng, Nhân viên, Admin), hỗ trợ tìm chuyến theo tuyến, đặt vé, hủy vé, quản lý xe, chuyến đi, khách hàng, nhân viên và báo cáo thống kê.
+      </p>
+      <div class="project-hero-meta">
+        <div class="meta-item">👤 <span>Dự án cá nhân</span></div>
+        <div class="meta-item">🏷️ <span>Desktop Application</span></div>
+        <div class="meta-item">⚡ <span>C# WinForms · SQL Server</span></div>
+      </div>
+      <div class="project-hero-actions">
+        <a href="https://github.com/Duy35P/Ung-dung-ban-ve-xe" target="_blank" class="btn btn-primary">
+          ⭐ GitHub Repository →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ARCHITECTURE ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Kiến trúc</div>
+        <h2 class="section-title">Kiến trúc <span class="highlight">Phân Lớp</span></h2>
+      </div>
+      <p class="section-subtitle">Tách biệt giao diện (Forms), logic truy cập dữ liệu (Repositories) và các lớp thực thể (Models) giúp mã nguồn dễ bảo trì và mở rộng.</p>
+
+      <div class="diagram-container">
+        <h3>🏛️ Layered Architecture</h3>
+        <div class="mermaid">
+flowchart TD
+    User["👤 Người dùng"] --> Forms
+
+    subgraph Forms ["Presentation Layer — Windows Forms"]
+        direction LR
+        F1["DangNhap / DangKy"]
+        F2["DatVeXe / HuyVeXe"]
+        F3["QuanLyXe / QuanLyChuyenDi"]
+        F4["QuanLyKhachHang / QuanLyNhanVien"]
+        F5["BaoCaoThongKe"]
+    end
+
+    Forms --> Repo
+
+    subgraph Repo ["Data Access Layer — Repositories"]
+        direction LR
+        R1["AuthRepository"]
+        R2["VeXeRepository"]
+        R3["ChuyenDiRepository"]
+        R4["XeRepository"]
+        R5["KhachHang / NhanVien / BaoCao"]
+    end
+
+    Forms --> Models
+    Repo --> Models
+
+    subgraph Models ["Models — CLASS_CD_Xe"]
+        direction LR
+        M1["Xe"]
+        M2["TuyenDuong"]
+        M3["ChuyenDi"]
+        M4["PhanCongXe"]
+        M5["KhachHang"]
+    end
+
+    Repo --> DB[("🗄️ SQL Server\nQL_BANVEXEKHACH")]
+
+    style User fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style Forms fill:#1e1e2f,stroke:#6c63ff,color:#e8e8f0
+    style Repo fill:#1e1e2f,stroke:#00d4aa,color:#e8e8f0
+    style Models fill:#1e1e2f,stroke:#f5c842,color:#e8e8f0
+    style DB fill:#1a1a2e,stroke:#ff6b6b,color:#e8e8f0
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ROLES ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Phân quyền</div>
+        <h2 class="section-title">Luồng Đăng Nhập &amp; <span class="highlight">Vai Trò</span></h2>
+      </div>
+      <p class="section-subtitle">Đăng nhập bằng số điện thoại, sau đó hệ thống điều hướng người dùng đến đúng màn hình theo mã nhóm quyền.</p>
+
+      <div class="diagram-container">
+        <h3>🔐 Role-based Navigation</h3>
+        <div class="mermaid">
+flowchart TD
+    A["Đăng nhập\n(SĐT + Mật khẩu)"] --> B{"Kiểm tra\nnhóm quyền"}
+    B -->|"3 — Admin"| C["📊 Báo Cáo Thống Kê"]
+    B -->|"2 — Nhân viên"| D["🎫 Đặt Vé Xe"]
+    B -->|"1 — Khách hàng"| E{"Thông tin\ncá nhân đầy đủ?"}
+    E -->|Chưa| F["📝 Form Thông Tin Cá Nhân"]
+    E -->|Rồi| D
+    F --> D
+    G["Đăng ký tài khoản"] -.-> A
+
+    style A fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style C fill:#1a1a2e,stroke:#f5c842,color:#e8e8f0
+    style D fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+    style F fill:#1a1a2e,stroke:#ff6b6b,color:#e8e8f0
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== BOOKING FLOW ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Nghiệp vụ</div>
+        <h2 class="section-title">Quy Trình <span class="highlight">Đặt &amp; Hủy Vé</span></h2>
+      </div>
+
+      <div class="diagram-container">
+        <h3>🎫 Booking Flow (Đặt vé)</h3>
+        <div class="mermaid">
+flowchart TD
+    A["Chọn điểm đi / điểm đến"] --> B{"Hợp lệ?\n(đã chọn & khác nhau)"}
+    B -->|Không| A
+    B -->|Có| C["Tìm chuyến xe theo tuyến"]
+    C --> D["Chọn chuyến từ danh sách"]
+    D --> E["Nhập họ tên, SĐT, số lượng vé,\nhình thức thanh toán"]
+    E --> F["Tự động tính tổng tiền"]
+    F --> G["Xác nhận đặt vé"]
+    G --> H{"Khách hàng\nđã tồn tại (theo SĐT)?"}
+    H -->|Chưa| I["Tạo mới khách hàng"]
+    H -->|Rồi| J["Lấy mã khách hàng"]
+    I --> K["Cấp ghế trống đầu tiên\n(bỏ qua ghế đã đặt)"]
+    J --> K
+    K --> L["✅ Lưu vé vào CSDL"]
+
+    style A fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style L fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+        </div>
+      </div>
+
+      <div class="diagram-container">
+        <h3>🗑️ Cancel Flow (Hủy vé)</h3>
+        <div class="mermaid">
+flowchart LR
+    A["Mở màn hình Hủy Vé"] --> B["Xem danh sách vé đã đặt"]
+    B --> C["Chọn vé → xem thông tin\nkhách hàng & mã ghế"]
+    C --> D["Xác nhận hủy"]
+    D --> E["Cập nhật CSDL"]
+
+    style A fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style E fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DATABASE ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Database</div>
+        <h2 class="section-title">Sơ đồ <span class="highlight">Cơ sở dữ liệu</span></h2>
+      </div>
+      <p class="section-subtitle">Các thực thể chính của hệ thống và mối quan hệ giữa tuyến đường, chuyến đi, xe, khách hàng và vé.</p>
+
+      <div class="diagram-container">
+        <h3>🗃️ Entity Relationship Diagram (ERD)</h3>
+        <div class="mermaid">
+erDiagram
+    TuyenDuong {
+        int MaTuyen PK
+        string NoiXuatPhat
+        string DiemDen
+    }
+    ChuyenDi {
+        string MaChuyen PK
+        int MaTuyen FK
+        datetime ThoiGianKhoiHanh
+        decimal GiaVe
+    }
+    Xe {
+        string BienSo PK
+        string TenXe
+        string TenTaiXe
+        string SDTTaiXe
+    }
+    PhanCongXe {
+        int ID PK
+        string BienSo FK
+        string MaChuyen FK
+        int SoLuongGhe
+    }
+    KhachHang {
+        int MaKH PK
+        string SDT
+        string CCCD
+        string HoTen
+        string Email
+    }
+    VeXe {
+        int MaVe PK
+        int MaKH FK
+        string MaChuyen FK
+        string SoGhe
+        decimal GiaVe
+        string HinhThucThanhToan
+        string TrangThai
+        string NguoiDatVe
+    }
+    TuyenDuong ||--o{ ChuyenDi : "có"
+    ChuyenDi ||--o{ PhanCongXe : "được phân công"
+    Xe ||--o{ PhanCongXe : "chạy"
+    ChuyenDi ||--o{ VeXe : "bán"
+    KhachHang ||--o{ VeXe : "đặt"
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Tính Năng</div>
+        <h2 class="section-title">Tính Năng <span class="highlight">Chi Tiết</span></h2>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-item-icon">🔍</div>
+          <div>
+            <h4>Tìm Chuyến Theo Tuyến</h4>
+            <p>Chọn điểm đi, điểm đến để lọc chuyến xe; kiểm tra đầu vào hợp lệ và báo số chuyến tìm được.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">🎫</div>
+          <div>
+            <h4>Đặt Vé &amp; Cấp Ghế Tự Động</h4>
+            <p>Tính tổng tiền theo số lượng vé, tự cấp ghế trống kế tiếp và bỏ qua các ghế đã có người đặt.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">❌</div>
+          <div>
+            <h4>Hủy Vé</h4>
+            <p>Xem danh sách vé đã đặt cùng thông tin khách hàng, mã ghế, thời gian đặt và thực hiện hủy vé.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">🚐</div>
+          <div>
+            <h4>Quản Lý Xe &amp; Phân Công</h4>
+            <p>Thêm, sửa, xóa xe; phân công xe và số ghế cho từng chuyến, chặn xóa xe đang được phân công.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">🗺️</div>
+          <div>
+            <h4>Quản Lý Chuyến Đi</h4>
+            <p>Quản lý tuyến đường, thời gian khởi hành, giá vé; kiểm tra trùng mã và chặn sửa/xóa chuyến đã có khách đặt vé.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">👥</div>
+          <div>
+            <h4>Quản Lý Khách Hàng &amp; Nhân Viên</h4>
+            <p>Quản lý hồ sơ khách hàng, nhân viên kèm tìm kiếm và tạo tài khoản đăng nhập tương ứng.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">📈</div>
+          <div>
+            <h4>Báo Cáo Thống Kê</h4>
+            <p>Dành cho Admin: tổng hợp dữ liệu vé xe, chuyến đi và khách hàng để theo dõi hoạt động kinh doanh.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">✅</div>
+          <div>
+            <h4>Validation Dữ Liệu</h4>
+            <p>Mỗi model (Xe, ChuyenDi, KhachHang, PhanCongXe) có phương thức IsValid trả về thông báo lỗi rõ ràng.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TECH STACK ===== -->
+  <section class="section" style="padding-top: 0; padding-bottom: 60px;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Công Nghệ</div>
+        <h2 class="section-title">Tech <span class="highlight">Stack</span></h2>
+      </div>
+      <div class="glass-card">
+        <table class="tech-table">
+          <thead>
+            <tr>
+              <th>Thành phần</th>
+              <th>Công nghệ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Ngôn ngữ</strong></td>
+              <td>C#</td>
+            </tr>
+            <tr>
+              <td><strong>Giao diện</strong></td>
+              <td>Windows Forms (.NET Framework 4.8)</td>
+            </tr>
+            <tr>
+              <td><strong>Cơ sở dữ liệu</strong></td>
+              <td>SQL Server</td>
+            </tr>
+            <tr>
+              <td><strong>Truy cập dữ liệu</strong></td>
+              <td>ADO.NET (Typed DataSet / TableAdapter) kết hợp Repository Pattern</td>
+            </tr>
+            <tr>
+              <td><strong>Phân quyền</strong></td>
+              <td>3 nhóm quyền: Khách hàng, Nhân viên, Admin</td>
+            </tr>
+            <tr>
+              <td><strong>Công cụ</strong></td>
+              <td>Visual Studio, Git &amp; GitHub</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <p>Thiết kế &amp; phát triển bởi <span class="gradient-text">Phan Trần Hữu Duy</span> © 2025</p>
+    </div>
+  </footer>
+
+  <!-- Mermaid.js -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#6c63ff',
+        primaryTextColor: '#e8e8f0',
+        primaryBorderColor: '#6c63ff',
+        secondaryColor: '#00d4aa',
+        tertiaryColor: '#1a1a2e',
+        lineColor: '#6c63ff',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '14px'
+      }
+    });
+  </script>
+</body>
+</html>

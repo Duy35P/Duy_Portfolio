@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phân Loại Cảm Xúc từ Bình Luận — Phan Trần Hữu Duy</title>
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .project-hero-actions {
+      display: flex;
+      gap: 16px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: -40px auto 48px;
+      text-align: center;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== PROJECT HERO ===== -->
+  <section class="project-hero">
+    <div class="container">
+      <a href="../index.html" class="btn-back">
+        ← Quay lại trang chủ
+      </a>
+      <div class="project-hero-badge" style="color: var(--accent-secondary);">
+        🧠 NLP &amp; Data Mining
+      </div>
+      <h1>Phân Loại Cảm Xúc <span class="gradient-text">từ Bình Luận</span></h1>
+      <p class="project-hero-desc">
+        Hệ thống phân tích cảm xúc bình luận tiếng Việt thương mại điện tử với tập dữ liệu 31,460 comments. Tích hợp mô hình ngôn ngữ lớn PhoBERT và baseline Naive Bayes. Hỗ trợ phân tích đơn lẻ, xử lý hàng loạt qua CSV/Excel, thu thập dữ liệu tự động từ Shopee và báo cáo trực quan qua Dashboard.
+      </p>
+      <div class="project-hero-meta">
+        <div class="meta-item">👤 <span>Solo Developer</span></div>
+        <div class="meta-item">🏷️ <span>Natural Language Processing</span></div>
+        <div class="meta-item">📊 <span>31,460 Comments Dataset</span></div>
+      </div>
+      <div class="project-hero-actions">
+        <a href="https://github.com/Duy35P/Phan-loai-cam-xuc-tu-binh-luan" target="_blank" class="btn btn-primary">
+          ⭐ GitHub Repository →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ARCHITECTURE ===== -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Kiến trúc</div>
+        <h2 class="section-title">Kiến trúc <span class="highlight">Hệ Thống</span></h2>
+      </div>
+      
+      <div class="diagram-container">
+        <h3>🏛️ System Architecture</h3>
+        <div class="mermaid">
+flowchart TD
+    App["🖥️ Streamlit Web App"] --> Pages
+    
+    subgraph Pages ["Giao Diện Người Dùng (Pages)"]
+        direction LR
+        P1["🏠 Home"] 
+        P2["📊 Dashboard"] 
+        P3["💬 Phân Tích"] 
+        P4["📁 Upload File"] 
+        P5["📜 Lịch Sử"]
+    end
+    
+    Pages --> Utils
+    
+    subgraph Utils ["Utils Layer"]
+        direction LR
+        U1["📈 Charts (Plotly)"]
+        U2["📤 Export (CSV/Excel)"]
+    end
+    
+    Utils --> Core
+    
+    subgraph Core ["Core Layer"]
+        direction LR
+        C1["🤖 Models Logic"]
+        C2["🧹 Preprocessing"]
+        C3["🗄️ Database Logic"]
+    end
+    
+    Core --> Tech
+    
+    subgraph Tech ["Công Nghệ & Dữ Liệu"]
+        direction LR
+        M1["PhoBERT Model"]
+        M2["Naive Bayes"]
+        L1["PyVi / Transformers"]
+        DB[("SQLite (history.db)")]
+    end
+
+    style App fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style Pages fill:#1e1e2f,stroke:#6c63ff,color:#e8e8f0
+    style Utils fill:#1e1e2f,stroke:#00d4aa,color:#e8e8f0
+    style Core fill:#1e1e2f,stroke:#f5c842,color:#e8e8f0
+    style Tech fill:#1e1e2f,stroke:#ff6b6b,color:#e8e8f0
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PREPROCESSING ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Xử lý Ngôn Ngữ Tự Nhiên</div>
+        <h2 class="section-title">Tiền Xử Lý <span class="highlight">Tiếng Việt</span></h2>
+      </div>
+      <p class="section-subtitle">Pipeline chuẩn hóa văn bản chuyên sâu để xử lý ngôn ngữ mạng, teencode và emoji phổ biến trên các trang thương mại điện tử.</p>
+      
+      <div class="diagram-container">
+        <h3>🧹 Vietnamese Text Preprocessing Pipeline</h3>
+        <div class="mermaid">
+flowchart LR
+    A["Văn bản gốc"] --> B["Chuyển Lowercase"]
+    B --> C["Xử lý Emoji\n(😍→yêu_thích)"]
+    C --> D["Chuẩn hóa Teencode\n(ko→không, sp→sản phẩm)"]
+    D --> E["Xóa URLs & Ký tự đặc biệt"]
+    E --> F["Tách từ Tiếng Việt\n(Tokenization bằng PyVi)"]
+    F --> G["Loại bỏ Stopwords"]
+    G --> H["✨ Văn bản sạch"]
+
+    style A fill:#1a1a2e,stroke:#ff6b6b,color:#e8e8f0
+    style H fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== WORKFLOW ===== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Luồng Hoạt Động</div>
+        <h2 class="section-title">Quy Trình <span class="highlight">Phân Tích</span></h2>
+      </div>
+      
+      <div class="diagram-container">
+        <h3>💬 Single Analysis Flow (Phân tích đơn lẻ)</h3>
+        <div class="mermaid">
+flowchart TD
+    A["Nhập bình luận"] --> B["Chọn Model\n(PhoBERT / Naive Bayes)"]
+    B --> C{"Decision"}
+    
+    C -->|PhoBERT| D1["Tokenize → Encode\n→ Model.forward → Softmax"]
+    C -->|Naive Bayes| D2["Preprocess (PyVi)\n→ Model.predict"]
+    
+    D1 --> E["Kết quả:\nLabel + Confidence + Probability Chart"]
+    D2 --> E
+    E --> F[("Lưu vào Database (Optional)")]
+
+    style A fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+    style F fill:#1a1a2e,stroke:#00d4aa,color:#e8e8f0
+        </div>
+      </div>
+
+      <div class="diagram-container">
+        <h3>📁 Batch Analysis Flow (Xử lý hàng loạt)</h3>
+        <div class="mermaid">
+flowchart TD
+    A["Upload file CSV / Excel"] --> B["Đọc DataFrame"]
+    B --> C["Chọn cột chứa Text + Chọn Model"]
+    C --> D["Phân tích theo batch\n(Hiển thị Progress bar)"]
+    D --> E["Kết quả tổng quan:\nSummary Cards + Donut Chart + Bar Chart"]
+    E --> F["Export Data\n(CSV / Excel có format màu)"]
+    E --> G[("Lưu phiên phân tích vào History")]
+
+    style A fill:#1a1a2e,stroke:#6c63ff,color:#e8e8f0
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MODEL COMPARISON & FEATURES ===== -->
+  <section class="section" style="padding-top: 0; padding-bottom: 60px;">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-label">Đánh giá</div>
+        <h2 class="section-title">So Sánh <span class="highlight">Mô Hình</span></h2>
+      </div>
+      
+      <div class="glass-card" style="margin-bottom: 40px;">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Mô hình</th>
+              <th>Độ chính xác (Accuracy)</th>
+              <th>Tốc độ</th>
+              <th>Ứng dụng phù hợp</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color: var(--accent-primary-light); font-weight: 600;">PhoBERT</td>
+              <td class="highlight-cell">78.51%</td>
+              <td>Chậm (Cần tính toán lớn)</td>
+              <td>Phân tích đơn lẻ cần độ chính xác cao</td>
+            </tr>
+            <tr>
+              <td style="color: var(--accent-primary-light); font-weight: 600;">Naive Bayes</td>
+              <td class="highlight-cell">76.12%</td>
+              <td>Nhanh</td>
+              <td>Xử lý file dữ liệu lớn (Batch Analysis)</td>
+            </tr>
+            <tr>
+              <td>SVM Linear</td>
+              <td>75.16%</td>
+              <td>Trung bình</td>
+              <td>Mô hình dự phòng</td>
+            </tr>
+            <tr>
+              <td>Logistic Regression</td>
+              <td>72.86%</td>
+              <td>Nhanh</td>
+              <td>Baseline so sánh</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-item">
+          <div class="feature-item-icon">🕷️</div>
+          <div>
+            <h4>Auto Crawl Shopee</h4>
+            <p>Thu thập và phân tích trực tiếp hàng ngàn bình luận từ đường link sản phẩm Shopee.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">📊</div>
+          <div>
+            <h4>Interactive Dashboard</h4>
+            <p>Trực quan hóa kết quả phân tích bằng biểu đồ Plotly (Donut, Bar, Histogram) cực kỳ sinh động.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">📜</div>
+          <div>
+            <h4>History Management</h4>
+            <p>Quản lý lịch sử phân tích với SQLite: lưu trữ, xem lại, so sánh và xóa các phiên làm việc.</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-item-icon">📥</div>
+          <div>
+            <h4>Smart Export</h4>
+            <p>Xuất kết quả ra file Excel với định dạng màu sắc tự động (Xanh=Tích cực, Đỏ=Tiêu cực) hoặc CSV utf-8-sig.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <p>Thiết kế &amp; phát triển bởi <span class="gradient-text">Phan Trần Hữu Duy</span> © 2025</p>
+    </div>
+  </footer>
+
+  <!-- Mermaid.js -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#6c63ff',
+        primaryTextColor: '#e8e8f0',
+        primaryBorderColor: '#6c63ff',
+        secondaryColor: '#00d4aa',
+        tertiaryColor: '#1a1a2e',
+        lineColor: '#6c63ff',
+        fontFamily: 'Inter, sans-serif',
+        fontSize: '14px'
+      }
+    });
+  </script>
+</body>
+</html>
